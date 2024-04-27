@@ -14,10 +14,13 @@
 
 static PtrToEmployee searchEmployeeTable(PtrToConstEmployee ptr, int tableSize, const void *targetPtr,  
     int (*functionPtr)(const void *, PtrToConstEmployee))
+    //functionPtr points to a function and the () enclose the parameters meant to be passed
+        //const void * is a pointer to a generic type
+        //PtrToConstEmployee is a pointer to a constant Employee type
 {
-    PtrToConstEmployee endPtr = ptr + tableSize;
+    PtrToConstEmployee endPtr = ptr + tableSize; //memory location of the beyond end of the array
     for(; ptr < endPtr; ptr++)
-        if ((*functionPtr)(targetPtr, ptr) == 0)
+        if ((*functionPtr)(targetPtr, ptr) == 0) //if the compare function returns 0, they are the same
             return (PtrToEmployee) ptr;
 
 
@@ -27,12 +30,14 @@ static PtrToEmployee searchEmployeeTable(PtrToConstEmployee ptr, int tableSize, 
 
 //The functionPtr will point to one of these comparison functions to perform a check
 static int compareEmployeeNumber(const void *targetPtr, PtrToConstEmployee tableValuePtr)
+    //compares the target employee number pointed to by targetPtr with the actual number in the structure pointed to by tableValuePtr
 {
-    return * (long *) targetPtr != tableValuePtr->number; //const void *targetPtr ==> typecast as int pointer then dereference
+    return * (long *) targetPtr != tableValuePtr->number; //const void *targetPtr ==> typecast as long pointer then dereference
 }
 static int compareEmployeeName(const void *targetPtr, PtrToConstEmployee tableValuePtr)
 {
     return strcmp((char *) targetPtr, tableValuePtr->name);//const void *targetPtr ==> typecast as char pointer then pass into strcmp()
+        //second * is not needed to dereference targetPtr because strcmp works directly with pointers to chars
 }
 static int compareEmployeePhone(const void *targetPtr, PtrToConstEmployee tableValuePtr)
 {
@@ -45,14 +50,17 @@ static int compareEmployeeSalary(const void *targetPtr, PtrToConstEmployee table
 
 
 //These are called wrappers. These functions are what you will use in your main!!!
+    //serve as convenient interfaces or wrappers around a more general-purpose search function
 PtrToEmployee searchEmployeeByNumber(PtrToConstEmployee ptr, int size, long number)
 {
     return searchEmployeeTable(ptr, size, &number, compareEmployeeNumber);
 }
+    //&number bc the generic function works with pointers 
 PtrToEmployee searchEmployeeByName(PtrToConstEmployee ptr, int size, char* name)
 {
     return searchEmployeeTable(ptr, size, name, compareEmployeeName);
 }
+    //char* name to pass name as a pointer to the first character
 PtrToEmployee searchEmployeeByPhone(PtrToConstEmployee ptr, int size, char* phone)
 {
     return searchEmployeeTable(ptr, size, phone, compareEmployeePhone);
