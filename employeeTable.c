@@ -1,8 +1,9 @@
-#include <string.h> 
-#include <stdlib.h> 
-#include "employee.h" 
+#include <string.h>     //string manipulation
+#include <stdlib.h>     //functions involving memory allocation 
+#include "employee.h"   //contains struct definition for employee
 
-Employee EmployeeTable[] = 
+Employee EmployeeTable[] = //array of employee structures 
+    //each element of the array represents an employee with their info
 { 
     {1001, "Daphne Borromeo", "909-555-2134", 8.78}, 
     {1011, "Tammy Franklin", "213-555-1212", 4.50}, 
@@ -11,4 +12,6 @@ Employee EmployeeTable[] =
     {5045, "Brian Height", "714-555-2749", 8.32} 
 
 }; 
+//a constant integer representing the number of entries in the employeetabl array
 const int EmployeeTableEntries = sizeof(EmployeeTable)/sizeof(EmployeeTable[0]);
+    //calculates the number of entries by dividing the total size of the array (in bytes) by the size of a single element
